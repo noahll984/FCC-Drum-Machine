@@ -1,6 +1,7 @@
 import './App.css'
 import Drum from './Drum.tsx'
 import { AudioClip } from './types.ts'
+import { useEffect, useRef } from 'react';
 
 const audioClips: AudioClip[] = [
   {
@@ -51,6 +52,11 @@ const audioClips: AudioClip[] = [
 ];
 
 function App() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
 
   const playAudio = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const clip = audioClips.find(
@@ -66,7 +72,7 @@ function App() {
  };
 
   return (
-    <div className="container" id="drum-machine" onKeyDown={playAudio}>
+    <div className="container" id="drum-machine" onKeyDown={playAudio} ref={containerRef} tabIndex={0}>
       <h1>FCC Drum Machine</h1>
       <div className="whole-drum">
         {audioClips.map((clip) => (
